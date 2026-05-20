@@ -3,17 +3,18 @@ id: vektorspaco-multicam
 category: media
 name: Multicam Player
 version: "1.0.0"
-tagline: Reproductor HLS multicam expuesto via Cloudflare Tunnel
+tagline: Reproductor HLS multicam servido por nginx, listo para LAN o Tailscale Funnel
 description: >-
   Sirve un reproductor HLS estatico con dos streams de video sincronizados
-  y multiples pistas de audio, expuesto a internet mediante Cloudflare Tunnel
-  con acceso protegido por Cloudflare Access.
+  y multiples pistas de audio sobre nginx. El contenido se sube via SFTP a
+  la carpeta de datos de la app. Headers de CORS y cache para HLS ya
+  configurados.
 
 
-  El contenido se sube via SFTP a la carpeta de datos de la app. El tunnel
-  se configura desde el dashboard de Cloudflare; este compose solo necesita
-  el token del tunnel en un archivo .env.
-releaseNotes: Primera version. Nginx + cloudflared.
+  Para exposicion externa se recomienda Tailscale Funnel sobre el puerto
+  LAN de la app (no requiere abrir puertos en el router ni configurar DNS).
+  Tambien acepta auth basica via .htpasswd (slot ya mapeado en el compose).
+releaseNotes: Primera version. Nginx estatico con headers HLS, sin tunneling embebido.
 developer: Espacio Vectorial
 website: https://github.com/vektorspaco/umbrel-apps
 dependencies: []
