@@ -20,7 +20,7 @@ website: https://github.com/vektorspaco/umbrel-apps
 dependencies: []
 repo: https://github.com/vektorspaco/umbrel-apps
 support: https://github.com/vektorspaco/umbrel-apps/issues
-port: 8080
+port: 18080
 gallery: []
 path: ""
 defaultUsername: ""

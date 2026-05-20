@@ -30,13 +30,29 @@ prefieras delante.
 - Slot para `.htpasswd` ya mapeado en el container (si despues queres
   sumar auth basica, no hace falta tocar el compose).
 
+### Dos puertos: para que sirve cada uno
+
+La app expone nginx por **dos caminos** distintos:
+
+- **`http://umbrel.local:18080`** → pasa por el `app_proxy` de Umbrel.
+  Requiere estar logueado al dashboard de Umbrel para entrar. Es el
+  puerto declarado en el manifest (`port: 18080` en `umbrel-app.yml`)
+  y el que abre la app cuando hacés click en "Open" desde el dashboard.
+  **Uso: vos, en tu LAN, con tu cuenta de Umbrel.**
+
+- **`http://umbrel.local:8081`** → bindea nginx directo, **sin pasar
+  por el app_proxy**, sin auth de Umbrel. Es el bypass que se usa para
+  exposicion externa (Tailscale Funnel) donde los viewers no tienen
+  cuenta en tu Umbrel. **Uso: amigos, via Tailscale Funnel.**
+
 ### Setup paso a paso
 
 #### 1. Instalar la app
 
 1. App Store → `Multicam Player` → `Install`.
-2. La app arranca y queda accesible en LAN en `http://umbrel.local:8080`
-   (puerto declarado en el manifest).
+2. La app arranca y queda accesible:
+   - En `http://umbrel.local:18080` desde el dashboard de Umbrel.
+   - En `http://umbrel.local:8081` directo (bypass para Funnel).
 
 #### 2. Subir el contenido
 
@@ -96,25 +112,34 @@ Si ya tenes Tailscale corriendo en el Umbrel (hay app oficial en el store
 de Umbrel):
 
 ```bash
-# en el Umbrel, via SSH
-tailscale funnel --bg 8080
+# en el Umbrel, via SSH — apunta al BYPASS (8081), no al app_proxy
+tailscale funnel --bg 8081
 ```
 
-Eso publica el puerto LAN `8080` (donde nginx sirve la app) en una URL
-publica `https://<nombre-nodo>.<tu-tailnet>.ts.net/` con certificado SSL
-automatico. Los viewers acceden a esa URL desde cualquier red, sin
-instalar nada.
+Eso publica el puerto LAN `8081` (nginx directo, sin auth de Umbrel) en
+una URL publica `https://<nombre-nodo>.<tu-tailnet>.ts.net/` con
+certificado SSL automatico. Los viewers entran a esa URL desde cualquier
+red sin instalar nada y sin necesitar cuenta en tu Umbrel.
+
+**Importante**: NO apuntes el funnel a `18080`. Ese puerto pasa por el
+`app_proxy` de Umbrel que pide login al dashboard — tus amigos no van a
+poder entrar.
 
 Variante mas restrictiva: `tailscale serve` en lugar de `funnel` expone
 el servicio solo a peers de tu tailnet (necesitan tener Tailscale
-instalado y estar autorizados).
+instalado y estar autorizados). Tambien apunta al `8081`:
+
+```bash
+tailscale serve --bg 8081
+```
 
 #### 5. Probar
 
-- LAN: `http://umbrel.local:8080`
-- Internet (con Funnel): `https://<nombre-nodo>.<tailnet>.ts.net/`
-- LAN/Tailnet (sin Funnel, solo Serve): `https://<nombre-nodo>.<tailnet>.ts.net/`
-  (accesible solo desde peers de la tailnet).
+- LAN propia (con login de Umbrel): `http://umbrel.local:18080`
+- LAN directa (sin auth): `http://umbrel.local:8081`
+- Internet (Funnel): `https://<nombre-nodo>.<tailnet>.ts.net/`
+- Solo tailnet (Serve): misma URL que Funnel pero accesible solo desde
+  peers autorizados.
 
 ---
 
@@ -142,8 +167,9 @@ instalado y estar autorizados).
 **El video carga el manifest pero los `.ts` tiran 404:**
 - Verificar que la estructura de carpetas dentro de `data/content/` sea
   exactamente lo que pide tu `index.html` (los paths son relativos).
-- `curl -I http://umbrel.local:8080/1T/bbc/seg_00000.ts` debe retornar
-  `200 OK` con `Content-Type: video/mp2t`.
+- `curl -I http://umbrel.local:8081/1T/bbc/seg_00000.ts` debe retornar
+  `200 OK` con `Content-Type: video/mp2t`. (Testealo siempre contra el
+  bypass `8081` para descartar el app_proxy de Umbrel del medio.)
 
 **Tailscale Funnel devuelve "could not connect":**
 - `tailscale status` desde el Umbrel para verificar que el nodo esta
