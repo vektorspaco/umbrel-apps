@@ -1,5 +1,5 @@
 manifestVersion: 1
-id: multicam
+id: vektorspaco-multicam
 category: media
 name: Multicam Player
 version: "1.0.0"
@@ -14,15 +14,15 @@ description: >-
   se configura desde el dashboard de Cloudflare; este compose solo necesita
   el token del tunnel en un archivo .env.
 releaseNotes: Primera version. Nginx + cloudflared.
-developer: Braulio
-website: https://github.com/braulio/umbrel-apps
+developer: Espacio Vectorial
+website: https://github.com/vektorspaco/umbrel-apps
 dependencies: []
-repo: https://github.com/braulio/umbrel-apps
-support: https://github.com/braulio/umbrel-apps/issues
+repo: https://github.com/vektorspaco/umbrel-apps
+support: https://github.com/vektorspaco/umbrel-apps/issues
 port: 8080
 gallery: []
 path: ""
 defaultUsername: ""
 defaultPassword: ""
-submitter: Braulio
-submission: https://github.com/braulio/umbrel-apps
+submitter: Espacio Vectorial
+submission: https://github.com/vektorspaco/umbrel-apps
