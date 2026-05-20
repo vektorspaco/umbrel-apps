@@ -1,6 +1,6 @@
 # Braulio's Umbrel Apps
 
-Community app store con apps caseras para el stack del PH.
+Community app store con apps caseras para el stack de Espacio Vectorial.
 
 ## Como agregar este store a tu Umbrel
 
