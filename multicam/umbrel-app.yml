@@ -1,0 +1,28 @@
+manifestVersion: 1
+id: multicam
+category: media
+name: Multicam Player
+version: "1.0.0"
+tagline: Reproductor HLS multicam expuesto via Cloudflare Tunnel
+description: >-
+  Sirve un reproductor HLS estatico con dos streams de video sincronizados
+  y multiples pistas de audio, expuesto a internet mediante Cloudflare Tunnel
+  con acceso protegido por Cloudflare Access.
+
+
+  El contenido se sube via SFTP a la carpeta de datos de la app. El tunnel
+  se configura desde el dashboard de Cloudflare; este compose solo necesita
+  el token del tunnel en un archivo .env.
+releaseNotes: Primera version. Nginx + cloudflared.
+developer: Braulio
+website: https://github.com/braulio/umbrel-apps
+dependencies: []
+repo: https://github.com/braulio/umbrel-apps
+support: https://github.com/braulio/umbrel-apps/issues
+port: 8080
+gallery: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""
+submitter: Braulio
+submission: https://github.com/braulio/umbrel-apps
