@@ -1,23 +1,17 @@
-version: "3.7"
-
+version: '3.7'
 services:
   app_proxy:
     environment:
       APP_HOST: vektorspaco-multicam_nginx_1
       APP_PORT: 80
-
+    container_name: vektorspaco-multicam_app_proxy_1
   nginx:
     image: nginx:alpine
     restart: on-failure
+    ports:
+      - "127.0.0.1:8081:80"
     volumes:
       - ${APP_DATA_DIR}/data/content:/usr/share/nginx/html:ro
       - ${APP_DATA_DIR}/data/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    restart: on-failure
-    command: tunnel --no-autoupdate run
-    environment:
-      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
-    depends_on:
-      - nginx
+      - ${APP_DATA_DIR}/data/.htpasswd:/etc/nginx/.htpasswd:ro
+    container_name: vektorspaco-multicam_nginx_1
