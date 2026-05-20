@@ -1,6 +1,6 @@
 # vektorspaco's Umbrel Apps
 
-Community app store con apps caseras para el stack de Espacio Vectorial.
+Community app store con apps caseras para Umbrel (https://github.com/getumbrel) un componente del stack de Espacio Vectorial.
 
 ## Como agregar este store a tu Umbrel
 
