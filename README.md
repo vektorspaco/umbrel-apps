@@ -8,7 +8,7 @@ Community app store con apps caseras para el stack de Espacio Vectorial.
 2. Click en los tres puntitos arriba a la derecha → `Community App Stores`
 3. Click `Add` y pega la URL de este repo:
    ```
-   https://github.com/braulio/umbrel-apps
+  https://github.com/vektorspaco/umbrel-apps/
    ```
 4. Las apps aparecen como cualquier otra en el store, con un tag de "community".
 
